@@ -1,7 +1,11 @@
 # CS 410 - Game Development
-## Author
+
+## Assignment 1
+
+### Author
 Brett DeWitt
-## Description
+
+### Description
 
 [60] Download and install Unity 6000.0.44f1 Personal (including the preselected targets plus “WebGL Build Support” and any other desired platform support) either from the Unity Hub (recommended) or directly from here:
 
@@ -25,7 +29,7 @@ Feel free to customize the look and feel of your project by adjusting colors, li
 
 Submit a link to your *public* repo for Assignment 1 on Canvas.
 
-## Implementation
+### Implementation
 For the double jump, I used the built-in callbacks for input event OnJump and collision event OnCollisionEnter. I used two variables to keep track of the jumps: maxJumps and jumpsLeft. The ground in the example code was given a 'ground' tag. When the player enters a collision with a game object which has the ground tag, jumpsLeft is set to maxJumps, resetting the counter. OnJump checks whether jumpsLeft is greater than zero, and if so decrements jumpsLeft and applies force.
 
 ```c#
