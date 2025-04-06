@@ -5,18 +5,22 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     private Rigidbody rb;
-    private float movementX;
-    private float movementY;
-    private int count;
-    private int jumpsLeft = 0;
+    private float movementX;            // horizontal movement
+    private float movementY;            // horizontal movement
+    private int count;                  // Number of collectibles retrieved
+    private int jumpsLeft = 0;          // Number of jumps remaining before
+                                        // touching the ground
 
-    public float speed = 0.0f;
-    public float jumpForce = 5.0f;
-    public int maxJumps = 2;
-    public TextMeshProUGUI countText;
-    public GameObject winTextObject;
+    public float speed = 0.0f;          // horizontal movement speed
+    public float jumpForce = 5.0f;      // Upward thrust when jumping
+    public int maxJumps = 2;            // Number of jumps allowed before
+                                        // touching the ground again
+    public TextMeshProUGUI countText;   // Number of collectibles retrieved
+    public GameObject winTextObject;    // Victory message to display when all
+                                        // collectibles retrieved
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // Start is called once before the first execution of Update after the
+    // MonoBehaviour is created
     void Start()
     {
         winTextObject.SetActive(false);
@@ -25,6 +29,7 @@ public class PlayerController : MonoBehaviour
         SetCountText();
     }
 
+    // Applies horizontal force to player by factor of 'speed'
     private void FixedUpdate() 
     {
         Vector3 movement = new Vector3 (movementX, 0.0f, movementY);
@@ -32,6 +37,7 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
     }
 
+    // Checks input and assigns horizontal movement values accordingly
     void OnMove (InputValue movementValue)
     {
         Vector2 movementVector = movementValue.Get<Vector2>();
@@ -40,6 +46,9 @@ public class PlayerController : MonoBehaviour
         movementY = movementVector.y;
     }
 
+    // Double-jump checks to see if any jumps are left. If so, applies force
+    // upward based on public int jumpForce, and decrements jumpsLeft by one.
+    // Otherwise, does nothing.
     void OnJump(InputValue jumpValue)
     {
         if (jumpsLeft > 0)
@@ -52,6 +61,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Updates the count text on the UI canvas when called. If the count
+    // reaches 8, displays victory text.
     void SetCountText() 
     {
         countText.text =  "Count: " + count.ToString();
@@ -62,6 +73,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Checks whether the player has touched the ground. If so, resets
+    // jumpsLeft to maxJumps.
     void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Ground"))
@@ -70,6 +83,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Checks whether the player has touched a collectible. If so, increments
+    // the counter, deactivates the collectible, and calls SetCountText.
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp")) 
